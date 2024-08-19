@@ -1,0 +1,64 @@
+<html>
+<head>
+    <script>exports = {};module = {};</script>
+    <script src="https://cdn.jsdelivr.net/npm/content-security-policy-parser" integrity="sha512-7Z0pYUIlIx7uvWwSYwJkzBVff8Rc03r5J/jr+Zf5WCsusk0UfuGnQA1lk+DrvpI8kbj4wm6Hmlqx2tZ0oULN5w==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/content-security-policy-builder" integrity="sha512-sYGkSZ+4+shnkEvNlTfz3Wlp983VcgkgcQ675cBwrJeIdbgwiwA0weN4xyQwOzWVxGfzMaRrb6rsR1tXKoc1PQ==" crossorigin="anonymous"></script>
+    <script>buildContentSecurityPolicy = module.exports</script>
+    <script>parseContentSecurityPolicy = top.parseContentSecurityPolicy</script>
+    <script src="params.js"></script>
+    <script src="components.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => initUI(container))</script>
+    <script>document.write(`<script>${config.xss}</scr`+`ipt>`)</script>
+    <script>
+        const directives = Object.assign({
+            'default-src': [],
+            'script-src': [],
+            'style-src': [],
+            'img-src': [],
+            'connect-src': [],
+            'font-src': [],
+            'object-src': [],
+            'media-src': [],
+            'frame-src': [],
+            'child-src': [],
+            'frame-ancestors': [],
+            'form-action': [],
+            'base-uri': [],
+            'manifest-src': [],
+            'worker-src': [],
+            'sandbox': [],
+            'report-uri': [],
+            'report-to': [],
+            'block-all-mixed-content': [],
+            'upgrade-insecure-requests': [],
+            'plugin-types': [],
+            'require-sri-for': [],
+            'trusted-types': [],
+            'require-trusted-types-for': [],
+            'navigate-to': [],
+            'script-src-elem': [],
+            'style-src-elem': [],
+            'script-src-attr': [],
+            'style-src-attr': [],
+        }, config.csp);
+
+        (function(){
+            const directivesNonEmpty = structuredClone(directives);
+            for (const d in directivesNonEmpty) {
+                if (!directivesNonEmpty[d].length) {
+                    delete directivesNonEmpty[d];
+                }
+            }
+            const csp = buildContentSecurityPolicy({
+                directives: directivesNonEmpty,
+            });
+            document.write(`<meta http-equiv="Content-Security-Policy" content="${csp}">`)
+        }())
+    </script>
+</head>
+<body>
+    <div id="container"></div>
+    <br>
+    <span><i>~ <a href="https://weizmangal.com/battelfield">https://weizmangal.com/battelfield</a></i></span>
+</body>
+</html>
