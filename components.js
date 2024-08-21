@@ -41,7 +41,7 @@ function script() {
     const button = document.createElement('button');
     button.textContent = 'SCRIPT';
     button.addEventListener('click', () => {
-        insertText(textarea, '/bf_script.js?alert(123)');
+        insertText(textarea, './bf_script.js?alert(123)');
     });
     return button;
 }
@@ -50,7 +50,7 @@ function frame() {
     const button = document.createElement('button');
     button.textContent = 'IFRAME';
     button.addEventListener('click', () => {
-        insertText(textarea, '/bf_iframe.html#<p>123</p>');
+        insertText(textarea, './bf_iframe.html#<p>123</p>');
     });
     return button;
 }
@@ -120,10 +120,10 @@ function code(xss = ';') {
     textarea.value = xss;
     textarea.addEventListener('input', () => {
         if (textarea.value.includes('SCRIPT')) {
-            replaceText(textarea, 'SCRIPT', '/bf_script.js?alert(123)');
+            replaceText(textarea, 'SCRIPT', './bf_script.js?alert(123)');
         }
         if (textarea.value.includes('IFRAME')) {
-            replaceText(textarea, 'IFRAME', '/bf_iframe.html#<p>123</p>');
+            replaceText(textarea, 'IFRAME', './bf_iframe.html#<p>123</p>');
         }
     })
     textarea.addEventListener('blur', () => updateXSS(textarea.value));
