@@ -1,1 +1,1 @@
-document.documentElement.appendChild(document.createElement('script')).textContent = document.querySelector('[src^="./bf_script.js?"]').src.split('?')[1];
+document.documentElement.appendChild(document.createElement('script')).textContent = document.querySelector('[src^="./bf_script.js#"]').src.split('#')[1];
