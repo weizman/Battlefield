@@ -1,7 +1,7 @@
 const config =
     sessionStorage.temp_state ?
         JSON.parse(atob(storage[sessionStorage.temp_state])) :
-    JSON.parse(atob(getParam('config')) || '{}');
+    JSON.parse(atob(getParam('config') || '') || '{}');
 config.xss = config.xss || '';
 config.csp = config.csp || {};
 
