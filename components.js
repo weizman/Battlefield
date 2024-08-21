@@ -22,6 +22,39 @@ function color(directive) {
     }
 }
 
+const replaceText = (textarea, old, text) => {
+    const position = textarea.selectionStart;
+    textarea.value = textarea.value.split(old).join(text);
+    textarea.selectionStart = textarea.selectionEnd = position;
+};
+
+const insertText = (textarea, text) => {
+    const position = textarea.selectionStart;
+    const before = textarea.value.substring(0, position);
+    const after = textarea.value.substring(position, textarea.value.length);
+    textarea.value = before + text + after;
+    textarea.selectionStart = textarea.selectionEnd = position + text.length;
+};
+
+
+function script() {
+    const button = document.createElement('button');
+    button.textContent = 'SCRIPT';
+    button.addEventListener('click', () => {
+        insertText(textarea, '/bf_script.js?alert(123)');
+    });
+    return button;
+}
+
+function frame() {
+    const button = document.createElement('button');
+    button.textContent = 'IFRAME';
+    button.addEventListener('click', () => {
+        insertText(textarea, '/bf_iframe.html#<p>123</p>');
+    });
+    return button;
+}
+
 function reset() {
     const button = document.createElement('button');
     button.textContent = 'reset 🔄';
@@ -80,10 +113,19 @@ function load() {
 function code(xss = ';') {
     const container = document.createElement('div');
     const textarea = container.appendChild(document.createElement('textarea'));
+    textarea.id = 'textarea';
     textarea.placeholder = `\n\n\tsetTimeout(() => alert("XSS WORKED!"), 500);`;
     textarea.style.width = "80%";
     textarea.style.height = "300px";
     textarea.value = xss;
+    textarea.addEventListener('input', () => {
+        if (textarea.value.includes('SCRIPT')) {
+            replaceText(textarea, 'SCRIPT', '/bf_script.js?alert(123)');
+        }
+        if (textarea.value.includes('IFRAME')) {
+            replaceText(textarea, 'IFRAME', '/bf_iframe.html#<p>123</p>');
+        }
+    })
     textarea.addEventListener('blur', () => updateXSS(textarea.value));
     return container;
 }

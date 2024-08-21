@@ -16,6 +16,8 @@
             save_container.replaceWith(save());
             load_container.replaceWith(load());
             share_container.replaceWith(share());
+            script_container.replaceWith(script());
+            iframe_container.replaceWith(frame());
         });
     </script>
     <script>
@@ -78,6 +80,16 @@
         <div id="save_container"></div>
         <div id="load_container"></div>
     </h1>
+    <div>
+        <li>
+            <i>
+                <b>Pro Tip: </b>type
+                <div id="script_container"></div> or
+                <div id="iframe_container"></div> to generate <code>src</code>s to scripts/iframes that dynamically execute code you dictate
+            </i>
+        </li>
+    </div>
+    <br>
     <div id="container"></div>
     <br>
     <span><i>~ <a href="https://github.com/weizman/Battlefield">https://github.com/weizman/Battelfield</a></i></span>
