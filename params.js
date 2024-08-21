@@ -1,22 +1,32 @@
-const config = JSON.parse(getParam('config') || '{}');
+const config =
+    sessionStorage.temp_state ?
+        JSON.parse(atob(storage[sessionStorage.temp_state])) :
+    JSON.parse(atob(getParam('config')) || '{}');
 config.xss = config.xss || '';
 config.csp = config.csp || {};
 
-function reload() {
-    location = setParam('config', JSON.stringify(config));
+function reload(clear = false) {
+    const param = !clear ? btoa(JSON.stringify(config)) : '';
+    location = setParam('config', param);
 }
 
 function updateCSP(directive, value) {
-    if (!value) return;
-    const same = config.csp[directive] && config.csp[directive][0] === value;
+    if (!value && !config.csp[directive]) return;
+    const same = (config.csp[directive] && config.csp[directive][0] === value)
     config.csp[directive] = [value];
-    if (value && !same) reload();
+    if (!same) {
+        sessionStorage.temp_state = '';
+        reload();
+    }
 }
 
 function updateXSS(value) {
     const same = value === config.xss;
     config.xss = value;
-    if (value && !same) reload();
+    if (!same) {
+        sessionStorage.temp_state = '';
+        reload();
+    }
 }
 
 function getParam(param) {
